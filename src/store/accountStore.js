@@ -3,7 +3,10 @@ export const accountStore = reactive({
   isLoggin: JSON.parse(localStorage.getItem("account")) || false,
   accounts: [{ name: "hehe" }],
   accountDetail: {},
-
+  myAccount: JSON.parse(localStorage.getItem("account")) || {},
+  setMyAccount: function (account) {
+    return (this.myAccount = { ...account });
+  },
   setAccount: function (account) {
     localStorage.setItem("account", JSON.stringify(account));
     this.isLoggin = true;
@@ -16,7 +19,6 @@ export const accountStore = reactive({
   },
   handleLogout: function () {
     this.isLoggin = false;
-    console.log(this.isLoggin);
     localStorage.removeItem("account");
   },
 });

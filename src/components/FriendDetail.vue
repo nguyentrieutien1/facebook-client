@@ -39,13 +39,14 @@ export default {
         accountAction.getDetailAccount(this.id);
     },
     methods: {
-        handleJoinRoom(e) {
+        handleJoinRoom() {
             messengerAction.setFriendId(this.id);
             messengerAction.toggleMessenger()
             socket.emit('join_room', { myId: this.myId, friendId: this.friendId })
         }
     },
     mounted() {
+        socket.emit("join_my_room", this.myId)
     },
     components: { Messenger }
 }
@@ -64,7 +65,6 @@ export default {
                 </div>
             </div>
         </div>
-        <Messenger v-if="isToggleMessenger" :friendIds="id" />
     </div>
 </template>
 <style scoped>

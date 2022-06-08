@@ -27,5 +27,8 @@ class MessengerAction {
     const data = await result.data;
     return data;
   };
+  turnOnMess = () => {
+    messengerStore.turnOnMess()
+  }
 }
 export default new MessengerAction();

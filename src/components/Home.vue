@@ -9,11 +9,15 @@ import SidebarRight from './SidebarRight.vue';
 import socket from '../socket.io.client/instanceSocket';
 import { messengerStore } from '../store/messengerStore';
 import PostList from './PostList.vue';
+import messengerListAction from '../actions/messengerListAction';
+import { messListStore } from '../store/messListStore';
+import messengerAction from '../actions/messengerAction';
 export default {
     data() {
         return {
             accountStore,
             messengerStore,
+            account: JSON.parse(localStorage.getItem("account"))
         }
     },
     components: {
@@ -33,9 +37,17 @@ export default {
         },
         myId() {
             return messengerStore.myId
+        },
+        accountId() {
+            return this.account?.id
         }
     },
     mounted() {
+        if (this.accountId) {
+            messengerListAction.getMessList(this.accountId).then(data => {
+                messListStore.setMessList(data)
+            })
+        }
     },
     created() {
         if (!this.isLoggin) {
@@ -43,6 +55,9 @@ export default {
         }
 
         socket.emit("join_my_room", this.myId)
+    },
+    unmounted() {
+        messengerAction.closeMess()
     },
 };
 </script>

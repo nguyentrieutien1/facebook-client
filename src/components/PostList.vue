@@ -105,7 +105,15 @@ export default {
         socket.on("handle_get_back_post_server", () => {
             postAction.getAllPost()
         })
+
         socket.on("like_server", () => {
+            postAction.getAllPost()
+        })
+
+        socket.on("comment_children_server", () => {
+            postAction.getAllPost()
+        })
+        socket.on("like_comment_server", () => {
             postAction.getAllPost()
         })
     },
@@ -192,11 +200,14 @@ export default {
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
 <style scoped>
+input {
+    border-radius: 20px;
+}
+
 .card-post {
     margin-top: 100px;
 }

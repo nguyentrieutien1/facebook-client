@@ -16,4 +16,10 @@ export const messengerStore = reactive({
   closeMess: function () {
     this.isToggleMessenger = false;
   },
+  turnOnMess: function () {
+    this.isToggleMessenger = false;
+    setTimeout(() => {
+      this.isToggleMessenger = true;
+    }, 1);
+  },
 });

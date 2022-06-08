@@ -2,9 +2,11 @@
 
 <script>
 import messengerAction from '../actions/messengerAction'
+import messengerListAction from '../actions/messengerListAction'
 import socket from '../socket.io.client/instanceSocket'
 import { accountStore } from '../store/accountStore'
 import { messengerStore } from '../store/messengerStore'
+import { messListStore } from '../store/messListStore'
 
 export default {
     props: ['friendIds'],
@@ -23,16 +25,16 @@ export default {
     },
     computed: {
         friendId() {
-            return +this.friendIds
+            return +this.messengerStore.friendId
         },
         myId() {
-            return this.account?.id
+            return +this.account?.id
         },
         messengerList() {
             return [...this.messengerStore.messengerList]
         },
         accountDetail() {
-            return this.accountStore.accountDetail
+            return this.accountStore?.accountDetail
         },
         textC() {
             return this.text
@@ -62,6 +64,9 @@ export default {
                 })
                 promise.then(() => {
                     this.getMessPartner()
+                    messengerListAction.getMessList(this.myId).then(data => {
+                        messListStore.setMessList(data)
+                    })
                     this.text = ""
                 })
             }
@@ -73,7 +78,6 @@ export default {
             const cardBodyElement = document.querySelector(".card-body");
             cardBodyElement.scrollTo({
                 top: (cardBodyElement.scrollHeight + 1000),
-                behavior: 'smooth',
             })
         },
         handleEntering(e) {
@@ -87,7 +91,6 @@ export default {
     created() {
         this.getMessPartner();
         socket.on("revice_mess", () => {
-            console.log("Done");
             this.getMessPartner()
             const messElement = document.getElementById("mess")
             messElement.setAttribute("placeholder", "Enter messenger")
@@ -95,17 +98,15 @@ export default {
         socket.on('handle_entering_server', ({ value }) => {
             const messElement = document.getElementById("mess")
             if (value) {
-                messElement.setAttribute("placeholder", "Đối tượng đang nhập tin nhắn, vui lòng đợi :>")
+                messElement.setAttribute("placeholder", "Đối tượng đang nhập tin nhắn, vui lòng đợi")
                 messElement.classList.add("input")
                 return;
             }
-            messElement.setAttribute("placeholder", "Enter messenger")
+            return messElement.setAttribute("placeholder", "Enter messenger")
         })
     },
     mounted() {
-        this.account = JSON.parse(localStorage.getItem('account'))
         this.scrollToBottomMess()
-
     },
 }
 </script>
@@ -115,10 +116,10 @@ export default {
             <div class="card-header">
                 <div class="card-info">
                     <div class="card-header-img">
-                        <img :src="this.accountDetail.account?.avatar">
+                        <img :src="accountDetail.account?.avatar">
                     </div>
                     <div class="card-heade-name">
-                        <h4>{{ this.accountDetail.account?.username }}</h4>
+                        <h4>{{ myId === accountDetail.account?.id ? "Only Me" : accountDetail.account?.username }}</h4>
                     </div>
                 </div>
                 <div class="card-header-close">
@@ -131,7 +132,7 @@ export default {
             </div>
             <div class="card-body card-content-messenger">
                 <div v-for="(messager, index) in messengerList"
-                    :class="[messager.username === this.accountDetail.account.username ? 'left' : 'right', 'card-body-mess']"
+                    :class="[messager.username === this.accountDetail.account.username && myId !== accountDetail.account?.id ? 'left' : 'right', 'card-body-mess',]"
                     :name="messager.username">
                     <img :src="messager.avatar" alt="" v-if="messager.username === this.accountDetail.account.username">
                     <p :class="[`messenger-${index}`]">{{ messager.messenger }}</p>

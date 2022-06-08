@@ -48,9 +48,11 @@ export default {
             <div class="card-body">
                 <div class="card-container-post">
                     <img class="img-thumbnail" :src="[account?.avatar]" alt="" />
-                    <input type="text" class="form-control" required="required" title=""
-                        :placeholder="[`hey ${account?.username} , what do your mind . . .?`]" data-toggle="modal"
-                        href="#modal-id" />
+                    <div class="float-right">
+                        <input type="text" class="form-control" required="required" title=""
+                            :placeholder="[`hey ${account?.username} , what do your mind . . .?`]" data-toggle="modal"
+                            href="#modal-id" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,13 +97,22 @@ export default {
 
 <style scoped>
 .card-container-modal-title {
-    display: flex;
     align-items: center;
     width: 50%
 }
 
+.float-right {
+    width: 100%
+}
+
+.float-right input {
+    width: 100%;
+    border-radius: 20px;
+}
+
 .card-container-post {
     display: flex;
+    align-items: center;
 }
 
 .card-container-post img,
