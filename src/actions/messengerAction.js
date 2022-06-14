@@ -28,7 +28,24 @@ class MessengerAction {
     return data;
   };
   turnOnMess = () => {
-    messengerStore.turnOnMess()
-  }
+    messengerStore.turnOnMess();
+  };
+  handSeenMess = async (id) => {
+    const result = await axios.put(`${variable.url}/mess/update/${id}`);
+    const data = await result.data;
+    return data;
+  };
+  countMess = async (id) => {
+    const result = await axios.get(`${variable.url}/count-mess/${+id}`);
+    const data = await result.data;
+    messengerStore.setCountMess(data);
+  };
+  handleUpdateAllMess = async ({ myId, friendId }) => {
+    const result = await axios.put(
+      `${variable.url}/update-all-mess/${myId}/${friendId}`
+    );
+    const data = await result.data;
+    return data;
+  };
 }
 export default new MessengerAction();

@@ -1,8 +1,9 @@
 import { reactive } from "vue";
 export const messListStore = reactive({
   messList: [],
+  newMessList: [],
   setMessList: function (data) {
-    console.log(data);
     this.messList = data;
+    this.newMessList = data;
   },
 });

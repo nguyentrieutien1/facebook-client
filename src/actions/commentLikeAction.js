@@ -9,5 +9,13 @@ class CommentLike {
     const data = await result.data;
     return data;
   };
+  createCommentLikeChild = async (accountId, commentChildId) => {
+    const result = await axios.post(`${variable.url}/comment-like-child`, {
+      accountId,
+      commentChildId,
+    });
+    const data = await result.data;
+    return data;
+  };
 }
 export default new CommentLike();

@@ -1,15 +1,17 @@
 
 <script>
+import { accountStore } from '../store/accountStore'
+
 export default {
     data() {
         return {
-            account: JSON.parse(localStorage.getItem('account'))
+            myAccount: accountStore
         }
     },
     computed: {
         account() {
-            return this.account
-        }
+            return this.myAccount.myAccount
+        },
     },
     mounted() {
     },
@@ -64,12 +66,22 @@ export default {
         <div class="sidebar__left-footer-item sidebar__left-footer-titile">
             <img src="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2020/02/17105257/game-ratings-featured.jpg"
                 alt="" sizes="" srcset="">
-            <h5>Game 1</h5>
+            <h5>Game 2</h5>
         </div>
         <div class="sidebar__left-footer-item sidebar__left-footer-titile">
             <img src="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2020/02/17105257/game-ratings-featured.jpg"
                 alt="" sizes="" srcset="">
-            <h5>Game 1</h5>
+            <h5>Game 3</h5>
+        </div>
+        <div class="sidebar__left-footer-item sidebar__left-footer-titile">
+            <img src="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2020/02/17105257/game-ratings-featured.jpg"
+                alt="" sizes="" srcset="">
+            <h5>Game 4</h5>
+        </div>
+        <div class="sidebar__left-footer-item sidebar__left-footer-titile">
+            <img src="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2020/02/17105257/game-ratings-featured.jpg"
+                alt="" sizes="" srcset="">
+            <h5>Game 5</h5>
         </div>
     </div>
 </template>
@@ -146,6 +158,9 @@ export default {
     height: 100%;
     top: 80px;
     overflow-y: scroll;
+    margin: 0;
+    width: 400px;
+    background: white;
 }
 
 .sidebar__left-account {

@@ -3,9 +3,13 @@ export const messengerStore = reactive({
   friendId: null,
   isToggleMessenger: false,
   messengerList: [],
+  count: "...",
   myId: JSON.parse(localStorage.getItem("account"))?.id,
   setFriendId: function (id) {
     this.friendId = id;
+  },
+  setCountMess: function (number) {
+    this.count = number;
   },
   toggleMessenger: function () {
     this.isToggleMessenger = !this.isToggleMessenger;

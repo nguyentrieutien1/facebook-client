@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import FriendDetail from "./../components/FriendDetail.vue";
 import Home from "./../components/Home.vue";
 import Login from "./../components/Login.vue";
 const router = createRouter({
