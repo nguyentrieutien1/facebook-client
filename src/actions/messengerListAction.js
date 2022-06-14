@@ -3,7 +3,6 @@ import { variable } from "./../contains/variable";
 import { messListStore } from "./../store/messListStore";
 class MessList {
   getMessList = async (accountId) => {
-    console.log(`getMessList`);
     const result = await axios.get(
       `${variable.url}/messenger-list/${accountId}`
     );

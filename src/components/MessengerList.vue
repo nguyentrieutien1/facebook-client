@@ -46,7 +46,6 @@ export default {
     },
     handleSearchMessenger(e) {
       const value = e.target.value;
-      console.log(this.messArr);
       if (value) {
         return (this.messListStore.messList = this.messArr.filter((e) => {
           return e.account.username.toLowerCase().includes(value.toLowerCase());

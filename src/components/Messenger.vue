@@ -110,7 +110,6 @@ export default {
       messElement.setAttribute("placeholder", "Enter messenger");
     });
     socket.on("handle_entering_server", ({ value }) => {
-      console.log("handle_entering_server");
       const messElement = document.getElementById("mess");
       if (value) {
         messElement.setAttribute(

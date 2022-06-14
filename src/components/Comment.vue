@@ -12,6 +12,7 @@ export default {
       commentChild: "",
       value: "",
       comment: this.comment.comment,
+      idData: null,
     };
   },
   computed: {
@@ -21,8 +22,14 @@ export default {
     comment() {
       return this.comment?.comment;
     },
+    friendId() {
+      return this.friendId;
+    },
     accountId() {
       return this.account?.id;
+    },
+    id() {
+      return this.comment.id;
     },
     username() {
       return this.comment?.username;
@@ -48,56 +55,84 @@ export default {
   },
   methods: {
     time(time) {
-      return timeHuman(time);
+      try {
+        return timeHuman(time);
+      } catch (error) {
+        console.log(error);
+      }
     },
     handleCommentChild() {
-      commentChild
-        .createCommentChild(
-          this.commentChilC,
-          this.commentParentId,
-          this.accountId
-        )
-        .then((data) => {
-          const { statusCode, message } = data;
-          if (statusCode === 200) {
-            postAction.getAllPost().then(() => {
-              this.value = "";
-              socket.emit("comment_children_client");
-            });
-            return this.$toast.success(message);
-          }
-          return this.$toast.error(message);
-        });
+      try {
+        commentChild
+          .createCommentChild(
+            this.commentChilC,
+            this.commentParentId,
+            this.accountId
+          )
+          .then((data) => {
+            const { statusCode, message } = data;
+            if (statusCode === 200) {
+              postAction.getAllPost().then(() => {
+                this.value = "";
+                socket.emit("comment_children_client");
+                socket.emit("tag_comment", this.idData);
+              });
+              return this.$toast.success(message);
+            }
+            return this.$toast.error(message);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
     handleComment(e) {
-      return (this.commentChild = e.target.value);
+      try {
+        return (this.commentChild = e.target.value);
+      } catch (error) {}
     },
     handleLikeComment(e, commentParentId) {
-      const target = e.target;
-      if (target.classList.contains("color-text")) {
-        target.classList.remove("color-text");
-      } else {
-        target.classList.add("color-text");
+      try {
+        const target = e.target;
+        if (target.classList.contains("color-text")) {
+          target.classList.remove("color-text");
+        } else {
+          target.classList.add("color-text");
+        }
+        commentLikeAction
+          .createCommentLike(this.accountId, commentParentId)
+          .then((data) => {
+            postAction.getAllPost().then(() => {
+              socket.emit("like_comment_client");
+            });
+          });
+      } catch (error) {
+        console.log(error);
       }
-      commentLikeAction
-        .createCommentLike(this.accountId, commentParentId)
-        .then((data) => {
-          postAction.getAllPost();
-          socket.emit("like_comment_client");
-        });
     },
     handleLikeCommentChild(e, accountId, commentChildId) {
-      const target = e.target;
-      if (target.classList.contains("color-text")) {
-        target.classList.remove("color-text");
-      } else {
-        target.classList.add("color-text");
+      try {
+        const target = e.target;
+        if (target.classList.contains("color-text")) {
+          target.classList.remove("color-text");
+        } else {
+          target.classList.add("color-text");
+        }
+        commentLikeAction
+          .createCommentLikeChild(accountId, commentChildId)
+          .then(() => {
+            socket.emit("comment_like_child");
+          });
+      } catch (error) {
+        console.log(error);
       }
-      commentLikeAction
-        .createCommentLikeChild(accountId, commentChildId)
-        .then(() => {
-          socket.emit("comment_like_child");
-        });
+    },
+    handleReplice(username, id) {
+      try {
+        this.value = `${username} ---> `;
+        this.idData = id;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   mounted() {},
@@ -136,6 +171,7 @@ export default {
         >
         <a>
           <span
+            @click="handleReplice(username, id)"
             class="comment-content-relice"
             data-toggle="collapse"
             :data-target="[`#children-comment-${commentParentId}`]"
@@ -198,7 +234,11 @@ export default {
               >
                 Like
               </li>
-              <li>Replice</li>
+              <li
+                @click="handleReplice(commentChild.username, commentChild.id)"
+              >
+                Replice
+              </li>
               <li>Share</li>
               <li>{{ time(commentChild?.timeChild) }}</li>
             </ul>

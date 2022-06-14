@@ -68,6 +68,10 @@ export default {
       this.$toast.info("Bạn có 1 tin nhắn mới");
       messengerAction.countMess(this.accountId);
     });
+    socket.on("tag_comment", () => {
+      this.$toast.warning("Bạn có 1 thông báo mới");
+    });
+
     if (window.history.state.current === "/") {
       return this.$router.push("/home");
     }
@@ -104,7 +108,9 @@ export default {
         >
           <div class="btn-group">
             <div class="icon icon__img">
-              <img :src="myAccount?.avatar" alt="" srcset="" />
+              <router-link :to="`/account/${accountId}`">
+                <img :src="myAccount?.avatar" alt="" srcset=""
+              /></router-link>
             </div>
             <div class="icon" data-toggle="dropdown">
               <i class="fa-brands fa-facebook-messenger"></i>

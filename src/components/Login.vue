@@ -48,7 +48,6 @@ export default {
       const { account } = data;
       accountAction.setAccount(account);
       accountAction.setMyAccount(account);
-      this.$toast.success(message);
       window.location.href = "/";
     },
   },

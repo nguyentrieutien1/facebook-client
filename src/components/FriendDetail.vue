@@ -124,7 +124,7 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     accountAction.getDetailAccount(this.id);
     socket.on("create_post_server", () => {
       accountAction.getDetailAccount(this.id);
