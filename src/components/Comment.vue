@@ -135,7 +135,6 @@ export default {
       }
     },
   },
-  mounted() {},
 };
 </script>
 <template>
@@ -161,7 +160,7 @@ export default {
       <div class="comment-option">
         <span
           :class="[
-            countLike.findIndex((like) => like.accountId === accountId) !== -1
+            countLike?.findIndex((like) => like.accountId === accountId) !== -1
               ? 'color-text'
               : '',
             `comment-content-like`,

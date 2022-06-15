@@ -8,6 +8,8 @@ export default {
       status: "public",
       postContent: "",
       id: JSON.parse(localStorage.getItem("account"))?.id,
+      picture: [],
+      images: [],
     };
   },
   computed: {
@@ -25,7 +27,13 @@ export default {
     handleCreatePost(e) {
       this.$toast.info(`Post is creating, please wait!`);
       postAction
-        .createPost(this.statusC, this.postContentC, this.idC)
+        .createPost(
+          this.statusC,
+          this.postContentC,
+          this.idC,
+          this.picture,
+          this.images
+        )
         .then((data) => {
           if (data) {
             const { statusCode, message } = data;
@@ -38,6 +46,15 @@ export default {
             return this.$toast.success(message);
           }
         });
+    },
+    async handleUploadPicture(e) {
+      const files = e.target.files;
+      const form = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        form.append("picture", files[i]);
+        this.images.push(`http://localhost:8000/images/${files[i].name}`);
+      }
+      this.picture = form;
     },
   },
   mounted() {},
@@ -98,6 +115,15 @@ export default {
             </div>
           </div>
           <div class="modal-footer">
+            <div class="modal-footer-img">
+              <input
+                type="file"
+                name=""
+                id=""
+                multiple
+                @change="handleUploadPicture"
+              />
+            </div>
             <button
               type="button"
               class="btn btn-default close-btn"

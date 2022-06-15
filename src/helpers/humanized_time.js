@@ -88,6 +88,5 @@ export default function humanized_time_span(
     }
     return time_ago_text;
   }
-
   return render_date(get_format());
 }

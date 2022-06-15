@@ -146,6 +146,17 @@ export default {
         </div>
         <div class="card-body card-content-post">
           {{ post?.postContent }}
+          <div class="card-content-img" v-if="post.images.length > 0">
+            <div class="card-content-img-detail">
+              <img
+                v-for="img in post.images"
+                :src="img"
+                alt=""
+                sizes="200"
+                srcset=""
+              />
+            </div>
+          </div>
         </div>
         <a class="person-other" href="#">{{
           post?.likes?.findIndex((like) => like.accountId === accountId) !==
@@ -244,6 +255,17 @@ export default {
   </div>
 </template>
 <style scoped>
+.card-content-img-detail {
+  display: flex;
+  margin: 30px 0;
+}
+.card-content-img-detail img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 20px;
+}
 input {
   border-radius: 20px;
 }

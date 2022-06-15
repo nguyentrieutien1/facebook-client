@@ -10,10 +10,11 @@ import { postStore } from "../store/postStore";
 import Messenger from "./Messenger.vue";
 import PostList from "./PostList.vue";
 import timeHuman from "./../helpers/humanized_time";
-import postAction from "../actions/postAction";
 import commentAction from "../actions/commentAction";
 import likeAction from "../actions/likeAction";
 import Comment from "./../components/Comment.vue";
+import axios from "axios";
+import { variable } from "../contains/variable";
 export default {
   data() {
     return {
@@ -23,6 +24,7 @@ export default {
       messList: [],
       postStore,
       account: JSON.parse(localStorage.getItem("account")),
+      avt: JSON.parse(localStorage.getItem("account")).avatar,
       comment: "",
       className: "",
       val: "",
@@ -48,7 +50,7 @@ export default {
       return postStore?.profile;
     },
     avatar() {
-      return this.account.avatar;
+      return this.avt;
     },
     accountId() {
       return this.account.id;
@@ -56,14 +58,6 @@ export default {
     val() {
       return this.val;
     },
-  },
-  created() {
-    socket.emit("join_my_room", this.myId);
-    socket.on("revice_mess", () => {
-      messengerListAction.getMessList(this.myId).then((data) => {
-        messListStore.setMessList(data);
-      });
-    });
   },
   methods: {
     handleJoinRoom() {
@@ -123,9 +117,40 @@ export default {
         });
       }
     },
+    async handleChangeAvt() {
+      const file = this.$refs.myFiles.files[0];
+      const form = new FormData();
+      form.append("images", file);
+      axios
+        .put(
+          `${variable.url}/account/upload/avatar/${this.accountStoreF.account.id}`,
+          form
+        )
+        .then((r) => r.data)
+        .then(() => {
+          accountAction.getDetailAccount(this.id);
+          const account = JSON.parse(localStorage.getItem("account"));
+          account.avatar = `http://localhost:8000/images/${file.name}`;
+          localStorage.setItem("account", JSON.stringify(account));
+          window.location.reload()
+        });
+    },
+    watch: {
+      accountStoreF: {
+        handler(newState) {
+          console.info(newState);
+        },
+        deep: true,
+      },
+    },
   },
   created() {
-    accountAction.getDetailAccount(this.id);
+    socket.emit("join_my_room", this.myId);
+    socket.on("revice_mess", () => {
+      messengerListAction.getMessList(this.myId).then((data) => {
+        messListStore.setMessList(data);
+      });
+    });
     socket.on("create_post_server", () => {
       accountAction.getDetailAccount(this.id);
     });
@@ -154,6 +179,9 @@ export default {
       accountAction.getDetailAccount(this.id);
     });
   },
+  mounted() {
+    accountAction.getDetailAccount(this.id);
+  },
   components: { Messenger, PostList, Comment },
 };
 </script>
@@ -168,7 +196,18 @@ export default {
           <div class="profile-container-info">
             <div class="profile-container-info--avt">
               <img :src="accountStoreF?.account?.avatar" />
-              />
+              <div class="form-check">
+                <input
+                  type="file"
+                  id="file"
+                  ref="myFiles"
+                  style="display: none"
+                  @change="handleChangeAvt"
+                />
+                <label for="file" class="form-check-label"
+                  >Change Img Here</label
+                >
+              </div>
             </div>
             <div class="profile-container-info--username">
               <h4>{{ accountStoreF?.account?.username }}</h4>
