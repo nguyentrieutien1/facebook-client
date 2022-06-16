@@ -258,6 +258,7 @@ export default {
 .card-content-img-detail {
   display: flex;
   margin: 30px 0;
+  flex-wrap: wrap;
 }
 .card-content-img-detail img {
   width: 250px;
@@ -265,6 +266,11 @@ export default {
   object-fit: cover;
   border-radius: 6px;
   margin-right: 20px;
+  margin: 10px;
+  transition: 0.2s ease;
+}
+img:hover {
+  transform: scale(0.97);
 }
 input {
   border-radius: 20px;
