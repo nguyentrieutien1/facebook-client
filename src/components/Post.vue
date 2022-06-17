@@ -147,6 +147,11 @@ export default {
 </template>
 
 <style scoped>
+.modal-footer-img input {
+  position: absolute;
+  left: 10px;
+  bottom: 20px;
+}
 .card-container-modal-title {
   align-items: center;
   width: 180px;

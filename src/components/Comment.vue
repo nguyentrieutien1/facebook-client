@@ -5,7 +5,7 @@ import postAction from "../actions/postAction";
 import timeHuman from "./../helpers/humanized_time";
 import socket from "./../socket.io.client/instanceSocket";
 export default {
-  props: ["comment"],
+  props: ["comment", "index", "count"],
   data() {
     return {
       account: JSON.parse(localStorage.getItem("account")),
@@ -135,10 +135,12 @@ export default {
       }
     },
   },
+  mounted() {},
 };
 </script>
 <template>
   <div class="comment">
+    <h5 class="comment-count"></h5>
     <div class="comment-avatar">
       <img :src="avatar" alt="img" srcset="" />
     </div>
@@ -228,7 +230,7 @@ export default {
                   ) !== -1
                     ? 'color-text'
                     : '',
-                  `content-option-like`,
+                  `comment-content-like`,
                 ]"
               >
                 Like
@@ -264,6 +266,11 @@ export default {
   </div>
 </template>
 <style scoped>
+.comment-count {
+  position: absolute;
+  right: 0;
+  top: -120px;
+}
 .count-like-child {
   position: absolute;
   left: 0;

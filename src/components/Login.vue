@@ -52,18 +52,33 @@ export default {
     },
   },
   updated() {},
+  mounted() {
+    ityped.init(document.querySelector(".txt"), {
+      showCursor: false,
+      strings: ["Hello, My Name Trieu Tien Nguyen", "Wellcome to my app !"],
+    });
+  },
 };
 </script>
 <template>
   <div class="row">
-    <div class="col-lg-4 login-form">
+    <div class="col-lg-3 col-md-3 login-form">
+      <div class="bgr-img">
+        <div class="txt"></div>
+        <div class="icon">
+          <i class="fa-brands fa-facebook-f"></i
+          ><i class="fa-brands fa-instagram"></i
+          ><i class="fa-brands fa-github"></i>
+          <i class="fa-brands fa-twitter"></i>
+        </div>
+      </div>
       <form
         action=""
         method="POST"
         role="form"
         @submit.prevent="handleLoginAccount"
       >
-        <legend>Login Form</legend>
+        <legend style="color: #007bff">Login Form</legend>
         <div class="form-group">
           <label for="">Username</label>
           <input
@@ -205,19 +220,114 @@ export default {
 </template>
 
 <style scoped>
+.icon {
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  left: 20%;
+}
+.fa-brands {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  margin-right: 30px;
+  border-radius: 100%;
+  border: 1px solid white;
+  cursor: pointer;
+  position: relative;
+  transition: 0.7s ease;
+}
+.fa-facebook-f {
+  animation: icon 1s ease-in;
+  animation-delay: 1s;
+}
+.fa-facebook-f:hover {
+  background-color: white;
+  color: #0069d9;
+}
+.fa-instagram {
+  animation: icon 2s ease-in;
+  animation-delay: 2s;
+}
+.fa-instagram:hover {
+  background-color: white;
+  color: #ed4c52;
+}
+.fa-github {
+  animation: icon 3s ease-in;
+  animation-delay: 3s;
+}
+.fa-github:hover {
+  color: black;
+  background-color: white;
+}
+.fa-twitter {
+  animation: icon 4s ease-in;
+  animation-delay: 4s;
+}
+.fa-twitter:hover {
+  color: #1da1f2;
+  background-color: white;
+}
+@keyframes icon {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.bgr-img {
+  position: absolute;
+  border-radius: 6px;
+  width: 400px;
+  height: 500px;
+  background-image: linear-gradient(to right, rgba(20, 5, 5, 0.138), #0069d9),
+    url("https://pixabay.com/get/g904b8963ce4318a5a15c7150d8ed30c4e201e0c85ec336dda295525b98a2cf0291b62c760b0a6dce215bee97415904ed3ece78892e2f7a2fafa445be08437ddf41c6a98c80d6abf1169f9903909e69c3_1920.jpg");
+  left: -380px;
+  top: -200px;
+  z-index: -100;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 4px 4px 10px #0069d9;
+  animation: run 0.7s ease-in;
+}
+.txt {
+  color: white;
+  font-size: 25px;
+  text-align: center;
+}
+.icon {
+  color: white;
+}
 input {
   border: none;
   outline: none;
   border-bottom: 1px solid #0069d9;
 }
 .login-form {
-  margin: 200px auto;
+  margin: 300px auto;
   padding: 40px 20px;
   border-radius: 10px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.201);
+  background: white;
+  position: absolute;
+  left: 45%;
 }
-.col-lg-6 {
-  margin-top: 100px;
+@keyframes run {
+  0% {
+    opacity: 0;
+    top: -300px;
+  }
+  100% {
+    opacity: 1;
+    top: -200px;
+  }
 }
 .btn-primary {
   width: 100%;

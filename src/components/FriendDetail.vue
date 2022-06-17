@@ -132,7 +132,7 @@ export default {
           const account = JSON.parse(localStorage.getItem("account"));
           account.avatar = `http://localhost:8000/images/${file.name}`;
           localStorage.setItem("account", JSON.stringify(account));
-          window.location.reload()
+          window.location.reload();
         });
     },
     watch: {
@@ -204,9 +204,12 @@ export default {
                   style="display: none"
                   @change="handleChangeAvt"
                 />
-                <label for="file" class="form-check-label"
-                  >Change Img Here</label
-                >
+                <label
+                  v-show="accountId == this.id"
+                  for="file"
+                  class="form-check-label"
+                  ><i class="fa-solid fa-camera"></i
+                ></label>
               </div>
             </div>
             <div class="profile-container-info--username">
@@ -251,6 +254,15 @@ export default {
         </div>
         <div class="card-body card-content-post">
           {{ post?.postContent }}
+          <div class="card-content-img" v-if="post.images.length > 0">
+            <div class="card-content-img-detail">
+              <div class="row">
+                <div class="col-lg-4 col-md-12 img" v-for="img in post.images">
+                  <img :src="img" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <a class="person-other" href="#">{{
           post?.likes?.findIndex((like) => like.accountId === accountId) !==
@@ -349,8 +361,17 @@ export default {
   </div>
 </template>
 <style scoped>
+.fa-camera {
+  font-size: 25px;
+  position: absolute;
+  top: -30px;
+  left: 80px;
+  cursor: pointer;
+}
 .post__list {
-  margin: 0 auto;
+  margin: auto;
+  position: relative;
+  top: 100px;
 }
 .col-lg-6 {
   background-color: blue;
@@ -521,5 +542,23 @@ input {
 
 .icon-like {
   color: rgb(101, 92, 92);
+}
+.row {
+  width: 100%;
+  display: flex;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+.card-content-img-detail img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 20px;
+  margin: 10px;
+  transition: 0.2s ease;
+}
+.card-content-img-detail img:hover {
+  transform: scale(0.97);
 }
 </style>

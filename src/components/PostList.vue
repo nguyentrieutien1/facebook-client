@@ -148,35 +148,43 @@ export default {
           {{ post?.postContent }}
           <div class="card-content-img" v-if="post.images.length > 0">
             <div class="card-content-img-detail">
-              <img
-                v-for="img in post.images"
-                :src="img"
-                alt=""
-                sizes="200"
-                srcset=""
-              />
+              <div class="row">
+                <div v-for="img in post.images">
+                  <img :src="img" alt="" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <a class="person-other" href="#">{{
-          post?.likes?.findIndex((like) => like.accountId === accountId) !==
-            -1 && post?.likes?.length > 1
-            ? `Bạn và ${
-                post?.likes?.length - 1
-              } người khác đã thích bài viết này`
-            : post?.likes?.findIndex((like) => like.accountId === accountId) !==
-                -1 && post?.likes?.length === 1
-            ? `Bạn đã thích bài viết này`
-            : post?.likes?.findIndex((like) => like.accountId === accountId) ===
-                -1 && post?.likes?.length > 1
-            ? `${post?.likes[0].username}, và ${
-                post?.likes?.length - 1
-              } khác đã thích bài này `
-            : post?.likes?.findIndex((like) => like.accountId === accountId) ===
-                -1 && post?.likes?.length === 1
-            ? `${post?.likes[0].username} đã thích bài viết này `
-            : ``
-        }}</a>
+        <div
+          style="display: flex; justify-content: space-between; padding: 0 20px"
+        >
+          <a class="person-other" href="#">{{
+            post?.likes?.findIndex((like) => like.accountId === accountId) !==
+              -1 && post?.likes?.length > 1
+              ? `Bạn và ${
+                  post?.likes?.length - 1
+                } người khác đã thích bài viết này`
+              : post?.likes?.findIndex(
+                  (like) => like.accountId === accountId
+                ) !== -1 && post?.likes?.length === 1
+              ? `Bạn đã thích bài viết này`
+              : post?.likes?.findIndex(
+                  (like) => like.accountId === accountId
+                ) === -1 && post?.likes?.length > 1
+              ? `${post?.likes[0].username}, và ${
+                  post?.likes?.length - 1
+                } khác đã thích bài này `
+              : post?.likes?.findIndex(
+                  (like) => like.accountId === accountId
+                ) === -1 && post?.likes?.length === 1
+              ? `${post?.likes[0].username} đã thích bài viết này `
+              : ``
+          }}</a>
+          <div class="float-right">
+            <h5 :class="[`count-${post.postId}`]"></h5>
+          </div>
+        </div>
         <div class="card-footer">
           <div class="icon-container">
             <div class="icon icon-like">
@@ -244,7 +252,11 @@ export default {
                   class="card-footer-comment"
                   v-for="(comment, index) in post.comments"
                 >
-                  <Comment :comment="comment" />
+                  <Comment
+                    :comment="comment"
+                    :count="post.cmt"
+                    :index="post.postId"
+                  />
                 </div>
               </div>
             </div>
@@ -255,18 +267,26 @@ export default {
   </div>
 </template>
 <style scoped>
-.card-content-img-detail {
+.col-lg-4,
+.col-md-12 {
+  padding: 0;
+}
+.row {
+  width: 100%;
   display: flex;
   margin: 30px 0;
   flex-wrap: wrap;
+}
+.card-content-img {
+  padding: 0;
+  margin: 0;
 }
 .card-content-img-detail img {
   width: 250px;
   height: 250px;
   object-fit: cover;
   border-radius: 6px;
-  margin-right: 20px;
-  margin: 10px;
+  margin: 20px 20px 20px 0;
   transition: 0.2s ease;
 }
 img:hover {
@@ -295,7 +315,6 @@ input {
 
 .person-other {
   display: block;
-  padding: 0 30px;
 }
 
 .card-header-info img {
@@ -335,15 +354,20 @@ input {
 .card-footer-comment {
   padding: 20px;
 }
-
+.card-footer {
+  height: 60px;
+}
 .card {
   border-radius: 10px;
 }
 
 .icon-container .icon {
   cursor: pointer;
+  line-height: 20px;
 }
-
+.icon-container i {
+  font-size: 25px;
+}
 .notifi {
   display: block;
   margin: 10px 0 0 0;
@@ -365,7 +389,7 @@ input {
 }
 
 .icon-color {
-  color: blue;
+  color: rgba(18, 70, 212, 0.782);
 }
 
 .icon-container .icon {

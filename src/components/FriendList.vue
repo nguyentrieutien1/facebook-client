@@ -33,8 +33,8 @@ export default {
           <router-link :to="`/account/${account.id}`">
             <img :src="account.avatar" alt="" srcset="" />
             <p>{{ account.username }}</p>
-            <button class="btn btn-primary addfri__btn">Add Friend</button>
           </router-link>
+          <button class="btn btn-primary addfri__btn">Add Friend</button>
         </slide>
         <template #addons>
           <Navigation />

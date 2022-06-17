@@ -55,7 +55,7 @@ export default {
   methods: {
     handleLogout() {
       accountAction.handleLogout();
-      this.$router.push("/login");
+      window.location.href = "/login";
     },
     handleBackToHome() {
       window.location.href = "/home";
