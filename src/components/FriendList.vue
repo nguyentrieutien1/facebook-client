@@ -3,11 +3,27 @@ import { accountStore } from "../store/accountStore";
 import accountAction from "./../actions/accountAction";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import PostList from "./PostList.vue";
+import axios from "axios";
+import socket from "../socket.io.client/instanceSocket";
+import { variable } from "../contains/variable";
 export default {
   data() {
     return {
       accountStore,
+      id: JSON.parse(localStorage.getItem("account"))?.id,
     };
+  },
+  methods: {
+    async handleSendRequestToAddFriend(myId, friendId) {
+      const result = await axios.post(`${variable.url}/friend`, {
+        myId,
+        friendId,
+      });
+      const { statusCode } = await result.data;
+      if (statusCode === 200) {
+        socket.emit("request_addfriend", friendId);
+      }
+    },
   },
   components: {
     Carousel,
@@ -34,7 +50,12 @@ export default {
             <img :src="account.avatar" alt="" srcset="" />
             <p>{{ account.username }}</p>
           </router-link>
-          <button class="btn btn-primary addfri__btn">Add Friend</button>
+          <button
+            class="btn btn-primary addfri__btn"
+            @click="handleSendRequestToAddFriend(this.id, account.id)"
+          >
+            Add Friend
+          </button>
         </slide>
         <template #addons>
           <Navigation />

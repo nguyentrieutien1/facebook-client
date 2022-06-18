@@ -38,6 +38,7 @@ export default {
         });
         const mess = document.querySelector(".mess-child");
         if (mess.classList.contains("color-text")) {
+        } else {
         }
       });
     },

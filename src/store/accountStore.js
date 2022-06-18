@@ -12,6 +12,9 @@ export const accountStore = reactive({
     this.isLoggin = true;
   },
   accountList: function (acc) {
+    const account = JSON.parse(localStorage.getItem("account"));
+    const index = acc.findIndex((acc) => acc.id == account?.id);
+    acc.splice(index, 1);
     this.accounts = acc;
   },
   setAccountDetail: function (account) {

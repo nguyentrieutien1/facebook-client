@@ -126,7 +126,6 @@ export default {
 </script>
 <template>
   <div>
-    <h1 class="hehe">{{ this.postList?.length }}</h1>
     <div
       class="col-xs-12 col-sm-12 col-md-12 col-lg-12 post__list"
       v-for="(post, index) in postList"
@@ -148,10 +147,8 @@ export default {
           {{ post?.postContent }}
           <div class="card-content-img" v-if="post.images.length > 0">
             <div class="card-content-img-detail">
-              <div class="row">
-                <div v-for="img in post.images">
-                  <img :src="img" alt="" />
-                </div>
+              <div v-for="img in post.images">
+                <img :src="img" alt="" />
               </div>
             </div>
           </div>
@@ -271,11 +268,11 @@ export default {
 .col-md-12 {
   padding: 0;
 }
-.row {
+.card-content-img-detail {
   width: 100%;
   display: flex;
-  margin: 30px 0;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .card-content-img {
   padding: 0;
@@ -287,10 +284,11 @@ export default {
   object-fit: cover;
   border-radius: 6px;
   margin: 20px 20px 20px 0;
-  transition: 0.2s ease;
+  transition: 0.5s ease;
 }
 img:hover {
   transform: scale(0.97);
+  border-radius: 10%;
 }
 input {
   border-radius: 20px;
