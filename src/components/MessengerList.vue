@@ -36,10 +36,6 @@ export default {
           messengerListAction.getMessList(this.accountId);
           messengerAction.countMess(this.accountId);
         });
-        const mess = document.querySelector(".mess-child");
-        if (mess.classList.contains("color-text")) {
-        } else {
-        }
       });
     },
     timeMess(time) {

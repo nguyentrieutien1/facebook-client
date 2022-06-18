@@ -1,5 +1,8 @@
 <script>
 import axios from "axios";
+import accountAction from "../actions/accountAction";
+import messengerAction from "../actions/messengerAction";
+import messengerListAction from "../actions/messengerListAction";
 import { variable } from "../contains/variable";
 import socket from "../socket.io.client/instanceSocket";
 
@@ -38,6 +41,17 @@ export default {
         this.getAcpList();
       }
     },
+    handleToggleMess(friendId) {
+      accountAction.getDetailAccount(+friendId).then(() => {
+        messengerAction.setFriendId(friendId);
+        messengerAction.turnOnMess();
+        socket.emit("join_room", { myId: this.id, friendId });
+        messengerAction.handSeenMess(idMess).then(() => {
+          messengerListAction.getMessList(this.id);
+          messengerAction.countMess(this.id);
+        });
+      });
+    },
   },
   computed: {
     list() {
@@ -61,6 +75,7 @@ export default {
     socket.on("online", (id) => {
       this.online.push(id);
     });
+    socket.emit("disconnect", 1);
   },
 };
 </script>
@@ -93,7 +108,11 @@ export default {
       </div>
       <div class="contact">
         <h5>Người liên hệ</h5>
-        <div class="contact__info" v-for="acp in acp">
+        <div
+          class="contact__info"
+          @click="handleToggleMess(acp.id)"
+          v-for="acp in acp"
+        >
           <img :src="acp.avatar" alt="" srcset="" />
           <h5>{{ acp.username }}</h5>
         </div>
@@ -105,15 +124,12 @@ export default {
 h5 {
   font-size: 16px;
 }
-
-.sidebar__right-container {
-}
-
 .contact__info {
   display: flex;
   align-items: center;
   position: relative;
   margin-top: 35px;
+  cursor: pointer;
 }
 
 .contact__info::before {
@@ -140,6 +156,7 @@ h5 {
 }
 .card__info {
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .addfriend {
@@ -157,7 +174,8 @@ h5 {
 .card__info {
   display: flex;
   align-items: center;
-}
+  cursor: pointer;
+  }
 
 .card__info-avar img,
 .contact__info img {
