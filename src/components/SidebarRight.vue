@@ -52,6 +52,16 @@ export default {
         });
       });
     },
+    async handleDeleteRequest(myId, friendId) {
+      const result = await axios.delete(
+        `${variable.url}/request/delete/${myId}/${friendId}`
+      );
+      const { statusCode } = await result.data;
+      if (statusCode === 200) {
+        this.getResultList();
+        socket.emit("delete_request", myId);
+      }
+    },
   },
   computed: {
     list() {
@@ -74,8 +84,8 @@ export default {
     });
     socket.on("online", (id) => {
       this.online.push(id);
-    });
-    socket.emit("disconnect", 1);
+    }); 
+  
   },
 };
 </script>
@@ -92,7 +102,9 @@ export default {
           </div>
           <div>
             <div class="card__info-name">
-              <h5>{{ acc.username }}</h5>
+              <router-link :to="`/account/${acc.id}`">
+                <h5>{{ acc.username }}</h5>
+              </router-link>
               <div class="card__info-button">
                 <button
                   class="btn btn-primary"
@@ -100,7 +112,12 @@ export default {
                 >
                   Xác nhận
                 </button>
-                <button class="btn btn-default">Xóa</button>
+                <button
+                  class="btn btn-default"
+                  @click="handleDeleteRequest(acc.myId, acc.friendId)"
+                >
+                  Xóa
+                </button>
               </div>
             </div>
           </div>
@@ -175,7 +192,7 @@ h5 {
   display: flex;
   align-items: center;
   cursor: pointer;
-  }
+}
 
 .card__info-avar img,
 .contact__info img {

@@ -66,6 +66,14 @@ export default {
         });
       });
     });
+    socket.on("delete_request", (id) => {
+      accountAction.getAccount().then(() => {
+        this.listFriendRequest();
+        this.getAcpList().then((d) => {
+          this.acp = [...d];
+        });
+      });
+    });
   },
 };
 </script>
