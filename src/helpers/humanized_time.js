@@ -6,7 +6,7 @@ export default function humanized_time_span(
 ) {
   //Date Formats must be be ordered smallest -> largest and must end in a format with ceiling of null
   if (!date) {
-    return "";
+    return "123";
   }
   date_formats = date_formats || {
     past: [
