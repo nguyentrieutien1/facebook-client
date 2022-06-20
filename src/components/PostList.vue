@@ -147,7 +147,7 @@ export default {
           {{ post?.postContent }}
           <div class="card-content-img" v-if="post.images.length > 0">
             <div class="card-content-img-detail">
-              <div v-for="img in post.images">
+              <div class="img-class" v-for="img in post.images">
                 <img :src="img" alt="" />
               </div>
             </div>
@@ -269,14 +269,16 @@ export default {
   padding: 0;
 }
 .card-content-img-detail {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }
 .card-content-img {
   padding: 0;
   margin: 0;
+}
+.img-class:hover img {
+  transform: scale(1.1);
+  border-radius: 100%;
 }
 .card-content-img-detail img {
   width: 250px;
@@ -286,10 +288,7 @@ export default {
   margin: 20px 20px 20px 0;
   transition: 0.5s ease;
 }
-img:hover {
-  transform: scale(0.97);
-  border-radius: 10%;
-}
+
 input {
   border-radius: 20px;
 }
@@ -326,8 +325,11 @@ input {
 .card-body-name h5 {
   float: left;
   width: 200px;
+  color: #1e91ec;
 }
-
+.card-body-name span {
+  font-weight: 600;
+}
 .card-body-user {
   display: flex;
   align-items: center;
@@ -343,6 +345,9 @@ input {
 
 .card-content-post {
   padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .card-body-input {

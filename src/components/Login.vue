@@ -92,7 +92,7 @@ export default {
         <div class="form-group">
           <label for="">Passowrd</label>
           <input
-            type="text"
+            type="password"
             class="form-control"
             id=""
             placeholder="Enter Password"
@@ -287,7 +287,7 @@ export default {
   width: 400px;
   height: 500px;
   background-image: linear-gradient(to right, rgba(20, 5, 5, 0.138), #0069d9),
-    url("https://pixabay.com/get/g904b8963ce4318a5a15c7150d8ed30c4e201e0c85ec336dda295525b98a2cf0291b62c760b0a6dce215bee97415904ed3ece78892e2f7a2fafa445be08437ddf41c6a98c80d6abf1169f9903909e69c3_1920.jpg");
+    url("./../assets/bgr.jpg");
   left: -380px;
   top: -200px;
   z-index: -100;

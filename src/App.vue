@@ -94,11 +94,11 @@ export default {
         <img
           @click="handleBackToHome"
           style="width: 40px; height: 40px"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1365px-Facebook_f_logo_%282019%29.svg.png"
+          src="./assets/e53bf02c0e739b9f60a6fef132599ad3--app-icon-design-app-logo-design.jpg"
           alt=""
           srcset=""
         />
-        <input type="text" placeholder="Tìm kiếm trên facebook" />
+        <input type="text" placeholder="Tìm kiếm trên Fenter-App" />
       </div>
       <div class="dropdown" v-if="this.isLoggin">
         <div
@@ -148,6 +148,10 @@ export default {
   <RouterView />
 </template>
 <style scoped>
+.logo img {
+  border-radius: 100%;
+  object-fit: cover;
+}
 .conut-mess {
   background-color: red;
   border-radius: 100%;
@@ -196,7 +200,7 @@ export default {
   background: #d8dadf;
   padding: 10px;
   margin-left: 10px;
-  padding-left: 30px;
+  padding-left: 25px;
   width: 250px;
 }
 .icon img {

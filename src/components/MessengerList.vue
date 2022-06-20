@@ -119,7 +119,9 @@ export default {
 .mess__list-info {
   transition: 0.3s ease;
   border-radius: 20px;
-  padding: 10px 3px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
 }
 .color-text {
   color: #1770e6;

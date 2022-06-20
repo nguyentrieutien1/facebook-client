@@ -239,13 +239,134 @@ export default {
       class="col-xs-7 col-sm-7 col-md-7 col-lg-7 post__list"
       v-for="(post, index) in postList"
     >
-      <div class="card card-post">
+      <div
+        class="card card-post"
+        v-if="post.id != accountId && post.status == 'public'"
+      >
         <div class="card-header-info">
           <div class="card-body-avatar">
             <img :src="post?.avatar" :alt="post?.avatar" srcset="" />
           </div>
           <div class="card-body-name">
-            <h5>{{ post?.username }}</h5>
+            <h5 style="color: blue">{{ post?.username }}</h5>
+            <br />
+            <span>
+              <span>{{ time(post.time) }}</span>
+            </span>
+          </div>
+        </div>
+        <div class="card-body card-content-post">
+          {{ post?.postContent }}
+          <div class="card-content-img" v-if="post.images.length > 0">
+            <div class="card-content-img-detail">
+              <div class="row">
+                <div class="col-lg-4 col-md-12 img" v-for="img in post.images">
+                  <img :src="img" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="person-other" href="#">{{
+          post?.likes?.findIndex((like) => like.accountId === accountId) !==
+            -1 && post?.likes?.length > 1
+            ? `Bạn và ${
+                post?.likes?.length - 1
+              } người khác đã thích bài viết này`
+            : post?.likes?.findIndex((like) => like.accountId === accountId) !==
+                -1 && post?.likes?.length === 1
+            ? `Bạn đã thích bài viết này`
+            : post?.likes?.findIndex((like) => like.accountId === accountId) ===
+                -1 && post?.likes?.length > 1
+            ? `${post?.likes[0].username}, và ${
+                post?.likes?.length - 1
+              } khác đã thích bài này `
+            : post?.likes?.findIndex((like) => like.accountId === accountId) ===
+                -1 && post?.likes?.length === 1
+            ? `${post?.likes[0].username} đã thích bài viết này `
+            : ``
+        }}</a>
+        <div class="card-footer">
+          <div class="icon-container">
+            <div class="icon icon-like">
+              <i
+                :class="[
+                  post?.likes?.findIndex(
+                    (like) => like.accountId === accountId
+                  ) !== -1
+                    ? 'icon-color fa-solid fa-thumbs-up'
+                    : 'fa-solid fa-thumbs-up',
+                ]"
+                @click="(e) => handleLike(e, accountId, post.postId)"
+              ></i>
+            </div>
+            <div
+              class="icon icon-cmt btn btn-link collapsed"
+              data-toggle="collapse"
+              :data-target="[`#id-${index}`]"
+              aria-expanded="false"
+            >
+              <i class="fa-solid fa-comment"></i>
+            </div>
+            <div class="icon icon-share">
+              <i class="fa-solid fa-share"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div
+                :id="[`id-${index}`]"
+                class="collapse"
+                aria-labelledby="headingTwo"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <div class="card-body-user">
+                    <div class="card-body-avatar">
+                      <img :src="avatar" alt="" sizes="" srcset="" />
+                    </div>
+                    <div class="card-body-input">
+                      <form @submit.prevent="handleSubmitComment(post?.postId)">
+                        <input
+                          id="send-comment"
+                          class="form-control"
+                          type="text"
+                          name=""
+                          :value="val"
+                          @keyup="(e) => handleNotify(e)"
+                          placeholder="Enter you comment"
+                        />
+                        <span
+                          class="notifi"
+                          :id="[`notifi - ${index} `]"
+                          style="display: none"
+                          >Có người đang bình luận bài viết này . . .</span
+                        >
+                      </form>
+                    </div>
+                    <br />
+                  </div>
+                </div>
+                <div
+                  class="card-footer-comment"
+                  v-for="(comment, index) in post.comments"
+                >
+                  <Comment :comment="comment" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card-post" v-else-if="post.id == accountId">
+        <div class="card-header-info">
+          <div class="card-body-avatar">
+            <img :src="post?.avatar" :alt="post?.avatar" srcset="" />
+          </div>
+          <div class="card-body-name">
+            <h5 style="color: blue">{{ post?.username }}</h5>
             <br />
             <span>
               <span>{{ time(post.time) }}</span>
@@ -361,6 +482,9 @@ export default {
   </div>
 </template>
 <style scoped>
+.profile-container-info--username {
+  padding-left: 20px;
+}
 .fa-camera {
   font-size: 25px;
   position: absolute;

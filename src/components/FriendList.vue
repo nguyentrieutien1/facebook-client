@@ -11,6 +11,8 @@ export default {
     return {
       accountStore,
       id: JSON.parse(localStorage.getItem("account"))?.id,
+      requestList: [],
+      acp: [],
     };
   },
   methods: {
@@ -22,7 +24,22 @@ export default {
       const { statusCode } = await result.data;
       if (statusCode === 200) {
         socket.emit("request_addfriend", friendId);
+        this.listFriendRequest();
       }
+    },
+    async listFriendRequest() {
+      const result = await axios.get(
+        `${variable.url}/friend/request/${this.id}`
+      );
+      const data = await result.data;
+      this.requestList = data.result;
+      console.info(this.requestList);
+    },
+    async getAcpList() {
+      const result = await axios.get(`${variable.url}/accept/${this.id}`);
+      const data = await result.data;
+      const { acpList } = data;
+      return acpList;
     },
   },
   components: {
@@ -33,7 +50,22 @@ export default {
     PostList,
   },
   created() {
-    accountAction.getAccount();
+    accountAction.getAccount().then(() => {
+      this.listFriendRequest();
+      this.getAcpList().then((d) => {
+        this.acp = [...d];
+      });
+    });
+  },
+  mounted() {
+    socket.on("handle_acp", () => {
+      accountAction.getAccount().then(() => {
+        this.listFriendRequest();
+        this.getAcpList().then((d) => {
+          this.acp = [...d];
+        });
+      });
+    });
   },
 };
 </script>
@@ -45,17 +77,33 @@ export default {
           class="slide__item"
           v-for="account of accountStore.accounts"
           :key="slide"
+          v-show="this.acp?.findIndex((a) => a.id == account.id) == -1"
         >
-          <router-link :to="`/account/${account.id}`">
-            <img :src="account.avatar" alt="" srcset="" />
-            <p>{{ account.username }}</p>
-          </router-link>
-          <button
-            class="btn btn-primary addfri__btn"
-            @click="handleSendRequestToAddFriend(this.id, account.id)"
-          >
-            Add Friend
-          </button>
+          <div>
+            <router-link :to="`/account/${account.id}`">
+              <img :src="account.avatar" alt="" srcset="" />
+              <p>{{ account.username }}</p>
+            </router-link>
+            <button
+              :class="[
+                this.requestList.findIndex(
+                  (re) => re.friendId == account.id
+                ) !== -1
+                  ? 'btn btn-warning'
+                  : 'btn btn-primary',
+                'addfri__btn',
+              ]"
+              @click="handleSendRequestToAddFriend(this.id, account.id)"
+            >
+              {{
+                this.requestList.findIndex(
+                  (re) => re.friendId == account.id
+                ) !== -1
+                  ? "Đã gửi lời mời"
+                  : "Thêm bạn bè "
+              }}
+            </button>
+          </div>
         </slide>
         <template #addons>
           <Navigation />
