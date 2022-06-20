@@ -33,7 +33,6 @@ export default {
       );
       const data = await result.data;
       this.requestList = data.result;
-      console.info(this.requestList);
     },
     async getAcpList() {
       const result = await axios.get(`${variable.url}/accept/${this.id}`);

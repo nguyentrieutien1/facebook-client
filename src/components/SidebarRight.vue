@@ -5,6 +5,7 @@ import messengerAction from "../actions/messengerAction";
 import messengerListAction from "../actions/messengerListAction";
 import { variable } from "../contains/variable";
 import socket from "../socket.io.client/instanceSocket";
+import timeZ from "./../helpers/humanized_time";
 
 export default {
   data() {
@@ -15,12 +16,16 @@ export default {
       id: JSON.parse(localStorage.getItem("account"))?.id,
     };
   },
+
   methods: {
+    times(time) {
+      return timeZ(time);
+    },
     async getResultList() {
       const result = await axios.get(`${variable.url}/friend/${this.id}`);
       const data = await result.data;
       const { requestList } = data;
-      this.list = [...requestList];
+      this.list = [...requestList?.slice(0, 2)];
     },
     async getAcpList() {
       const result = await axios.get(`${variable.url}/accept/${this.id}`);
@@ -84,8 +89,7 @@ export default {
     });
     socket.on("online", (id) => {
       this.online.push(id);
-    }); 
-  
+    });
   },
 };
 </script>
@@ -121,6 +125,7 @@ export default {
               </div>
             </div>
           </div>
+          <div class="time">{{ times(acc.time) }}</div>
         </div>
       </div>
       <div class="contact">
@@ -138,6 +143,14 @@ export default {
   </div>
 </template>
 <style scoped>
+.time {
+  margin-bottom: 60px;
+}
+.card__info-name {
+}
+.sidebar__right-container {
+  padding-bottom: 100px;
+}
 h5 {
   font-size: 16px;
 }
@@ -192,6 +205,7 @@ h5 {
   display: flex;
   align-items: center;
   cursor: pointer;
+  justify-content: space-between;
 }
 
 .card__info-avar img,

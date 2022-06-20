@@ -126,6 +126,7 @@ export default {
 </script>
 <template>
   <div>
+    <input-tag v-model="tags"></input-tag>
     <div
       class="col-xs-12 col-sm-12 col-md-12 col-lg-12 post__list"
       v-for="(post, index) in postList"

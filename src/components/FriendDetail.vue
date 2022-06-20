@@ -28,6 +28,7 @@ export default {
       comment: "",
       className: "",
       val: "",
+      data: [],
     };
   },
   computed: {
@@ -135,13 +136,12 @@ export default {
           window.location.reload();
         });
     },
-    watch: {
-      accountStoreF: {
-        handler(newState) {
-          console.info(newState);
-        },
-        deep: true,
-      },
+    async listFriendRequest() {
+      const result = await axios.get(
+        `${variable.url}/friend/request/${this.accountId}`
+      );
+      const data = await result.data;
+      return data?.result;
     },
   },
   created() {
@@ -181,6 +181,9 @@ export default {
   },
   mounted() {
     accountAction.getDetailAccount(this.id);
+    this.listFriendRequest().then((d) => {
+      this.data = d;
+    });
   },
   components: { Messenger, PostList, Comment },
 };
@@ -218,7 +221,15 @@ export default {
           </div>
           <div class="profile-container-info__option">
             <div class="friend__button">
-              <button class="btn btn-default">Thêm bạn bè</button>
+              <button class="btn btn-default">
+                {{
+                  this.data.findIndex(
+                    (d) => d.friendId == accountStoreF?.account?.id
+                  ) != -1
+                    ? "Đã gửi lời mời"
+                    : "Thêm bạn bè"
+                }}
+              </button>
             </div>
             <div class="messenger">
               <button
@@ -482,6 +493,17 @@ export default {
   </div>
 </template>
 <style scoped>
+.profile-container-info--avt:hover i {
+  opacity: 1;
+}
+.form-check {
+  overflow: none;
+}
+.form-check i {
+  opacity: 0;
+  margin-left: 10px;
+  transition: 0.5s ease;
+}
 .profile-container-info--username {
   padding-left: 20px;
 }

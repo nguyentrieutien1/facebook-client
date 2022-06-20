@@ -116,10 +116,15 @@ export default {
           </div>
           <div class="modal-footer">
             <div class="modal-footer-img">
+              <label for="my-input" class="form-check-label"
+                ><i class="fa-solid fa-images"></i
+                ><i class="fa-solid fa-face-smile"></i
+              ></label>
               <input
+                style="display: none"
+                id="my-input"
                 type="file"
                 name=""
-                id=""
                 multiple
                 @change="handleUploadPicture"
               />
@@ -147,10 +152,16 @@ export default {
 </template>
 
 <style scoped>
-.modal-footer-img input {
-  position: absolute;
-  left: 10px;
-  bottom: 20px;
+.modal-footer-img {
+  float: left;
+  width: 100%;
+}
+
+.modal-footer-img i {
+  font-size: 23px;
+  cursor: pointer;
+  color: rgb(13, 144, 52);
+  margin-right: 20px;
 }
 .card-container-modal-title {
   align-items: center;
