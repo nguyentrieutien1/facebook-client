@@ -18,6 +18,7 @@ export default {
         emailLogin: "",
         passwordLogin: "",
       },
+      fp_value: "",
     };
   },
   methods: {
@@ -50,8 +51,23 @@ export default {
       accountAction.setMyAccount(account);
       window.location.href = "/";
     },
+    async handleForgetPassword() {
+      const result = await axios.post(`${variable.url}/account/forget`, {
+        email: this.fp_value,
+      });
+      const { message, statusCode } = await result.data;
+      if (statusCode === 200) {
+        return this.$toast.success(message);
+      }
+      return this.$toast.success(message);
+    },
   },
-  updated() {},
+  beforeMount() {
+    if (JSON.parse(localStorage.getItem("account"))) {
+      window.location.href = "/";
+    }
+  },
+  beforeCreate() {},
   mounted() {
     ityped.init(document.querySelector(".txt"), {
       showCursor: false,
@@ -98,6 +114,65 @@ export default {
             placeholder="Enter Password"
             v-model="accountInfoLogin.passwordLogin"
           />
+        </div>
+        <div class="form-group">
+          <label
+            style="cursor: pointer"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Forget Password ?</label
+          >
+          <!-- FORGET PASSWORD -->
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <span class="modal-title" id="exampleModalLabel">
+                    Enter Email To Reset Password
+                  </span>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <input
+                    class="form-control"
+                    v-model="fp_value"
+                    type="text"
+                    name=""
+                  />
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    @click="handleForgetPassword"
+                    type="button"
+                    class="btn btn-primary"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <button
           @click="handleLoginAccount"

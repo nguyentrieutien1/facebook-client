@@ -127,16 +127,24 @@ export default {
             </div>
             <div class="dropdown-menu">
               <div class="card-s">
-                <div class="card-avt">
-                  <img :src="myAccount.avatar" alt="" />
+                <div class="card-item" style="align-items: center">
+                  <div class="card-avt">
+                    <img :src="myAccount.avatar" alt="" />
+                  </div>
+                  <div class="card-username">
+                    <h5>{{ myAccount.username }}</h5>
+                  </div>
                 </div>
-                <div class="card-username">
-                  <h5>{{ myAccount.username }}</h5>
+                <div class="card-item" @click="handleLogout">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <h5>Đăng xuất</h5>
                 </div>
-              </div>
-              <div class="card-item" @click="handleLogout">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                <h5>Đăng xuất</h5>
+                <router-link to="/profile"
+                  ><div class="card-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <h5>Cài đặt tài khoản</h5>
+                  </div></router-link
+                >
               </div>
             </div>
           </div>
@@ -148,6 +156,11 @@ export default {
   <RouterView />
 </template>
 <style scoped>
+.card-s {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
 .logo img {
   border-radius: 100%;
   object-fit: cover;
@@ -169,8 +182,7 @@ export default {
 }
 .card-item {
   display: flex;
-  align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
   cursor: pointer;
 }
 .card-item i {

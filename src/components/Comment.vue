@@ -128,14 +128,19 @@ export default {
     },
     handleReplice(username, id) {
       try {
-        this.value = `${username} ---> `;
+        this.value = `${username} `;
         this.idData = id;
       } catch (error) {
         console.log(error);
       }
     },
   },
-  mounted() {},
+  mounted() {
+    socket.on("comment_children_server", () => {
+      console.info("comment_children_server");
+      postAction.getAllPost();
+    });
+  },
 };
 </script>
 <template>

@@ -126,12 +126,11 @@ export default {
 </script>
 <template>
   <div>
-    <input-tag v-model="tags"></input-tag>
     <div
       class="col-xs-12 col-sm-12 col-md-12 col-lg-12 post__list"
       v-for="(post, index) in postList"
     >
-      <div class="card card-post">
+      <div class="card card-post" v-show="post.status === 'public'">
         <div class="card-header-info">
           <div class="card-body-avatar">
             <img :src="post?.avatar" :alt="post?.avatar" srcset="" />

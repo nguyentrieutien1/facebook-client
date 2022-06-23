@@ -24,6 +24,11 @@ const router = createRouter({
       name: "friend",
       component: () => import("./../components/FriendRequest.vue"),
     },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./../components/Profile.vue"),
+    },
   ],
 });
 
