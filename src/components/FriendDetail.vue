@@ -197,26 +197,28 @@ export default {
         </div>
         <div class="profile-container__main">
           <div class="profile-container-info">
-            <div class="profile-container-info--avt">
-              <img :src="accountStoreF?.account?.avatar" />
-              <div class="form-check">
-                <input
-                  type="file"
-                  id="file"
-                  ref="myFiles"
-                  style="display: none"
-                  @change="handleChangeAvt"
-                />
-                <label
-                  v-show="accountId == this.id"
-                  for="file"
-                  class="form-check-label"
-                  ><i class="fa-solid fa-camera"></i
-                ></label>
+            <div class="content-v">
+              <div class="profile-container-info--avt">
+                <img :src="accountStoreF?.account?.avatar" />
+                <div class="form-check">
+                  <input
+                    type="file"
+                    id="file"
+                    ref="myFiles"
+                    style="display: none"
+                    @change="handleChangeAvt"
+                  />
+                  <label
+                    v-show="accountId == this.id"
+                    for="file"
+                    class="form-check-label"
+                    ><i class="fa-solid fa-camera"></i
+                  ></label>
+                </div>
               </div>
-            </div>
-            <div class="profile-container-info--username">
-              <h4>{{ accountStoreF?.account?.username }}</h4>
+              <div class="profile-container-info--username">
+                <h4>{{ accountStoreF?.account?.username }}</h4>
+              </div>
             </div>
           </div>
           <div class="profile-container-info__option">
@@ -493,19 +495,17 @@ export default {
   </div>
 </template>
 <style scoped>
+.content-v {
+  width: max-content;
+  text-align: center;
+}
 .profile-container-info--avt:hover i {
   opacity: 1;
-}
-.form-check {
-  overflow: none;
 }
 .form-check i {
   opacity: 0;
   margin-left: 10px;
   transition: 0.5s ease;
-}
-.profile-container-info--username {
-  padding-left: 20px;
 }
 .fa-camera {
   font-size: 25px;
@@ -513,6 +513,10 @@ export default {
   top: -30px;
   left: 80px;
   cursor: pointer;
+  color: white;
+}
+.form-check {
+  padding: 0;
 }
 .post__list {
   margin: auto;

@@ -264,6 +264,10 @@ export default {
   </div>
 </template>
 <style scoped>
+.fa-solid,
+.fa-comment {
+  color: #655c5c;
+}
 .col-lg-4,
 .col-md-12 {
   padding: 0;

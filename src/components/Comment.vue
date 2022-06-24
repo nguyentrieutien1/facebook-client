@@ -177,6 +177,7 @@ export default {
         >
         <a>
           <span
+            style="cursor: pointer"
             @click="handleReplice(username, id)"
             class="comment-content-relice"
             data-toggle="collapse"
@@ -221,6 +222,7 @@ export default {
             </div>
             <ul class="content-option">
               <li
+                style="cursor: pointer"
                 @click="
                   (e) =>
                     handleLikeCommentChild(
@@ -241,6 +243,7 @@ export default {
                 Like
               </li>
               <li
+                style="cursor: pointer"
                 @click="handleReplice(commentChild.username, commentChild.id)"
               >
                 Replice

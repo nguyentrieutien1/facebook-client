@@ -60,6 +60,9 @@ export default {
     handleBackToHome() {
       window.location.href = "/home";
     },
+    handleGotoProfile() {
+      return (window.location.href = `/account/${this.accountId}`);
+    },
   },
 
   created() {
@@ -108,9 +111,12 @@ export default {
         >
           <div class="btn-group">
             <div class="icon icon__img">
-              <router-link :to="`/account/${accountId}`">
-                <img :src="myAccount?.avatar" alt="" srcset=""
-              /></router-link>
+              <img
+                :src="myAccount?.avatar"
+                alt=""
+                srcset=""
+                @click="handleGotoProfile"
+              />
             </div>
             <div class="icon" data-toggle="dropdown">
               <i class="fa-brands fa-facebook-messenger"></i>

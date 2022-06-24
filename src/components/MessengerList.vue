@@ -59,7 +59,9 @@ export default {
     <div class="">
       <div class="mess__list-title">
         <h3>Chat</h3>
+        <i class="fa-solid fa-people-roof"></i>
       </div>
+
       <div class="mess__list-search">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input
@@ -97,10 +99,7 @@ export default {
                   >{{
                     accountId === mess?.myId
                       ? `You :
-                                                                    ${mess.messenger.slice(
-                                                                      0,
-                                                                      20
-                                                                    )}`
+                  ${mess.messenger.slice(0, 20)}`
                       : `${mess.messenger.slice(0, 20)}`
                   }}</span
                 >
@@ -123,6 +122,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .color-text {
   color: #1770e6;
 }
@@ -130,9 +130,11 @@ export default {
 h5 {
   font-size: 16px;
 }
+
 .mess_list:hover .mess__list-info {
   background: #d8dadf;
 }
+
 .mess_list {
   cursor: pointer;
   border-radius: 20px;
@@ -159,6 +161,14 @@ h5 {
 
 .mess__list-title {
   text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mess__list-title i {
+  font-size: 22px;
+  cursor: pointer;
 }
 
 .mess__list-search {
