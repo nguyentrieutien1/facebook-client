@@ -138,7 +138,7 @@ export default {
   mounted() {
     socket.on("comment_children_server", () => {
       console.log("Nguyen Thanh Tung");
-
+      console.log("Change");
       console.info("comment_children_server");
       postAction.getAllPost();
     });
