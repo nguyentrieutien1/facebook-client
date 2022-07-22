@@ -386,6 +386,7 @@ li {
 }
 
 .comment-content h5,
+h4,
 h5 {
   font-size: 16px !important;
 }
